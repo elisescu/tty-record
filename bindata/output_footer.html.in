@@ -1,0 +1,34 @@
+    ]
+  </script>
+</head>
+
+<body>
+  <div id="terminal"></div>
+  <script>
+	var term = new Terminal();
+	term.open(document.getElementById('#terminal'), true);
+    nowIdx = 0
+
+    playNowAction = function() {
+        msgType = scriptData[nowIdx].tp
+
+        // data msg
+        if (msgType == 1) {
+          data = scriptData[nowIdx].dt
+          term.write(atob(data))
+        } else { // resize msg
+          term.resize(scriptData[nowIdx].cols, scriptData[nowIdx].rows)
+        }
+
+        if (nowIdx < scriptData.length - 1) {
+            nowIdx++;
+            nextPlay = scriptData[nowIdx].ts * 1000
+            setTimeout(playNowAction, nextPlay)
+        }
+    }
+
+    // Start the playback
+    setTimeout(playNowAction, scriptData[nowIdx].ts * 1000)
+  </script>
+</body>
+</html>
