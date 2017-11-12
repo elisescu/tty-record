@@ -65,7 +65,8 @@ func main() {
 
 	err = scriptWriter.Begin(winSize{cols: w, rows: h})
 	if err != nil {
-		log.Fatalf("Cannot create output. Error: %s", err.Error())
+		fmt.Printf("Cannot create output. Error: %s", err.Error())
+		return
 	}
 
 	allWriter := io.MultiWriter(os.Stdout, scriptWriter)

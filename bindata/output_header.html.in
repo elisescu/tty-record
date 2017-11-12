@@ -1,13 +1,6 @@
 <!doctype html>
 <html>
 <head>
-  <style type="text/css">
-  {{template "xterm.css"}}
-  </style>
-  <script>
-  {{template "xterm.js"}}
-  </script>
-
   <script>
   // TODO: write more info here
-  scriptData = [
+  var scriptData = [

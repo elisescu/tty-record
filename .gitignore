@@ -1,3 +1,5 @@
+.vscode/
+frontend/node_modules/
 bindata.go
 goscript
 typescript.html

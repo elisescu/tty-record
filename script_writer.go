@@ -9,15 +9,13 @@ import (
 )
 
 type scriptWriter struct {
-	outFileName     string
-	outputFile      *os.File
-	timestampBefore time.Time
+	outFileName    string
+	outputFile     *os.File
+	timestampStart time.Time
 }
 
 func (w *scriptWriter) WriteData(first bool, data []byte) {
-	ts := time.Since(w.timestampBefore).Seconds()
-	w.timestampBefore = time.Now()
-
+	ts := time.Since(w.timestampStart).Seconds() * 1000
 	cm := ","
 	if first {
 		cm = ""
@@ -31,8 +29,7 @@ func (w *scriptWriter) WriteData(first bool, data []byte) {
 }
 
 func (w *scriptWriter) WriteSize(first bool, size winSize) {
-	ts := time.Since(w.timestampBefore).Seconds()
-	w.timestampBefore = time.Now()
+	ts := time.Since(w.timestampStart).Seconds() * 1000
 
 	cm := ","
 	if first {
@@ -49,23 +46,10 @@ func (w *scriptWriter) WriteSize(first bool, size winSize) {
 }
 
 func (w *scriptWriter) Begin(size winSize) error {
-
-	tempOut := template.New("output")
-
-	// Read the main html template
+	// Read the header
 	binFile, err := Asset("bindata/output_header.html.in")
 	if err != nil {
 		return err
-	}
-	tempOut.Parse(string(binFile))
-
-	// Read the rest of the template files
-	for _, fileName := range []string{"xterm.js", "xterm.css"} {
-		binFile, err = Asset("bindata/" + fileName)
-		if err != nil {
-			return err
-		}
-		tempOut.New(fileName).Parse(string(binFile))
 	}
 
 	w.outputFile, err = os.Create(w.outFileName)
@@ -73,28 +57,37 @@ func (w *scriptWriter) Begin(size winSize) error {
 		return err
 	}
 
-	err = tempOut.ExecuteTemplate(w.outputFile, "output", nil)
-	if err != nil {
-		return err
-	}
+	w.outputFile.Write(binFile)
 
-	w.timestampBefore = time.Now()
+	w.timestampStart = time.Now()
 	w.WriteSize(true, size)
 	return nil
 }
 
 func (w *scriptWriter) End() error {
-	footer, err := Asset("bindata/output_footer.html.in")
+	binFile, err := Asset("bindata/output_footer.html.in")
 
 	if err != nil {
 		return err
 	}
-	_, err = w.outputFile.Write(footer)
 
+	tempOut := template.New("output")
+	tempOut.Parse(string(binFile))
+
+	// Read the rest of the template files
+	for _, fileName := range []string{"app.js"} {
+		binFile, err = Asset("bindata/" + fileName)
+		if err != nil {
+			return err
+		}
+		tempOut.New(fileName).Parse(string(binFile))
+	}
+
+	err = tempOut.ExecuteTemplate(w.outputFile, "output", nil)
 	if err != nil {
-		// TODO: revise all the error returns
 		return err
 	}
+
 	return w.outputFile.Close()
 }
 
