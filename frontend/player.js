@@ -39,7 +39,6 @@ class Player {
             if (this.framesLeft() > 1) {
                 const nextFrameEvent = this.playbackData[this.currentPlaybackDataIdx + 1];
                 const deltaTs = nextFrameEvent.ts - currentFrameEvent.ts;
-                console.log("Scheduling next frame after ", deltaTs, " ms")
                 this.tickID = window.setTimeout(function () {
                     thiz.renderFrames();
                 }, deltaTs);
