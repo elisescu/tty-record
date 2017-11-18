@@ -47,7 +47,7 @@ func (w *scriptWriter) WriteSize(first bool, size winSize) {
 
 func (w *scriptWriter) Begin(size winSize) error {
 	// Read the header
-	binFile, err := Asset("bindata/output_header.html.in")
+	binFile, err := Asset("templates/output_header.html.in")
 	if err != nil {
 		return err
 	}
@@ -65,7 +65,7 @@ func (w *scriptWriter) Begin(size winSize) error {
 }
 
 func (w *scriptWriter) End() error {
-	binFile, err := Asset("bindata/output_footer.html.in")
+	binFile, err := Asset("templates/output_footer.html.in")
 
 	if err != nil {
 		return err
@@ -76,7 +76,7 @@ func (w *scriptWriter) End() error {
 
 	// Read the rest of the template files
 	for _, fileName := range []string{"app.js"} {
-		binFile, err = Asset("bindata/" + fileName)
+		binFile, err = Asset(fileName)
 		if err != nil {
 			return err
 		}

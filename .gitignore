@@ -1,3 +1,4 @@
+frontend/app.js
 .vscode/
 frontend/node_modules/
 bindata.go
