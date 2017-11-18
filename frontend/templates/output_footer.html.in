@@ -4,10 +4,10 @@
 </head>
 
 <body>
-  <div id="terminal"></div>
+    <div id="player"></div>
 
-  <script>
-  {{template "app.js"}}
-  </script>
+    <script>
+    {{template "app.js"}}
+    </script>
 </body>
 </html>

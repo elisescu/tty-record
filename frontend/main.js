@@ -1,8 +1,10 @@
-import Player from './player.js'
-const player = new Player(document.getElementById('terminal'), scriptData);
-player.play();
+import {Player, PlayerState} from './player.js'
+const player = new Player(document.getElementById('player'), scriptData);
 
-// document.getElementById("test_button").onclick = function() {
-//     console.log("clicked");
-//     player.playAll()
-// }
+document.body.onkeyup = function(e){
+    if(e.keyCode == 32){
+        player.togglePause()
+    }
+}
+
+player.play();
