@@ -19,7 +19,12 @@ frontend/app.js: $(APPJS_SOURCES)
 	cd frontend && $(WEBPACK_BIN)
 	@echo "Frontend build done!"
 
-run_frontend:
+# Generate the session.js from the typescript, so we can run the run the frontend server on any data we want and generate
+# in the typescript
+frontend/session.js: typescript.html
+	awk '/goscript-start/{flag=1;next}/goscript-end/{flag=0}flag' $^ > $@
+
+run_frontend: frontend/index.html frontend/session.js
 	cd frontend && $(WEBPACK_BIN)-dev-server  --watch --hot
 
 clean:
