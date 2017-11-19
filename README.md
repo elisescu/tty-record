@@ -20,6 +20,6 @@ Bellow I'm listing some similar projects that I know of, and how `goscript` rela
 
 Resources
 =========
-[Ansi escape sequences](http://ascii-table.com/ansi-escape-sequences-vt-100.php)
-[VT100](https://vt100.net/docs/vt100-ug/chapter3.html)
-[VT100](http://www.termsys.demon.co.uk/vtansi.htm)
+* [Ansi escape sequences](http://ascii-table.com/ansi-escape-sequences-vt-100.php)
+* [VT100 1](https://vt100.net/docs/vt100-ug/chapter3.html)
+* [VT100 2](http://www.termsys.demon.co.uk/vtansi.htm)
