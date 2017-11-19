@@ -7,6 +7,7 @@ module.exports = {
     output: {
         filename: 'app.js'
     },
+    devtool: 'inline-source-map',
     module: {
         rules: [
             {
@@ -27,6 +28,10 @@ module.exports = {
                         presets: ['env']
                     }
                 }]
+            },
+            {
+                test: /\.js\.map$/,
+                use: ['source-map-loader']
             }
         ]
     },

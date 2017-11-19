@@ -18,6 +18,7 @@
     "babel-preset-env": "^1.6.1",
     "css-loader": "^0.28.7",
     "ignore-loader": "^0.1.2",
+    "source-map-loader": "^0.2.3",
     "style-loader": "^0.19.0",
     "webpack": "^3.8.1",
     "webpack-dev-server": "^2.9.4",
