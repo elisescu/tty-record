@@ -64,11 +64,12 @@ class PlayerImpl {
 
     renderEvent(frameEvent) {
         if (frameEvent.tp == 1) { // data msg
-            this.terminal.write(atob(frameEvent.dt))
+            this.terminal.write(decodeURIComponent(escape(window.atob(frameEvent.dt))))
         } else { // resize msg
             this.terminal.resize(frameEvent.cols, frameEvent.rows)
         }
     }
+
 
     framesLeft() {
         return this.playbackData.length - this.currentPlaybackDataIdx - 1;
