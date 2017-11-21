@@ -186,7 +186,7 @@ class PlayerImpl {
                 break;
             }
             this.renderEvent(event);
-            this.currentTimePosition = event.ts;
+            this.currentTimePosition = position;
             this.currentPlaybackDataIdx++;
         }
 
