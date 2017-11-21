@@ -1,4 +1,4 @@
-APPJS_SOURCES:=$(filter-out frontend/app.js, $(wildcard frontend/*))
+APPJS_SOURCES:=$(filter-out frontend/app.js frontend/session.js, $(wildcard frontend/*))
 BINDATA_FILES:=$(wildcard frontend/templates/*) frontend/app.js
 GO_SOURCES:=$(wildcard *.go) bindata.go
 WEBPACK_BIN:=node_modules/.bin/webpack
