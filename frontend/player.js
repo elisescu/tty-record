@@ -64,7 +64,11 @@ class PlayerImpl {
 
     renderEvent(frameEvent) {
         if (frameEvent.tp == 1) { // data msg
-            this.terminal.write(decodeURIComponent(escape(window.atob(frameEvent.dt))))
+            try  {
+                this.terminal.write(decodeURIComponent(escape(window.atob(frameEvent.dt))))
+            } catch (e) {
+                console.log("Couldnt' write data (", frameEvent.dt, "), atob: (", window.atob(frameEvent.dt), ")");
+            }
         } else { // resize msg
             this.terminal.resize(frameEvent.cols, frameEvent.rows)
         }
