@@ -1,4 +1,4 @@
-import 'xterm/dist/xterm.css'
+import 'xterm.css'
 import Terminal from 'xterm'
 import { clearInterval, setTimeout } from 'timers';
 import './player.css';

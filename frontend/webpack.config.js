@@ -8,15 +8,22 @@ module.exports = {
         filename: 'app.js'
     },
     devtool: 'inline-source-map',
+    resolve: {
+        modules: ["other_modules", "other_modules/xterm/dist", "node_modules"]
+    },
     module: {
         rules: [
+            {
+                test: /\.html$/,
+                use: ['html-loader']
+            },
             {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader']
             },
             {
                 // Don't parse the xterm map files - webpack doesn't like them
-                test: /node_modules.+xterm.+\.map$/,
+                test: /other_modules.+xterm.+\.map$/,
                 use: 'ignore-loader'
             },
             {
