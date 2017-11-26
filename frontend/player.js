@@ -1,8 +1,8 @@
 import 'xterm.css'
 import Terminal from 'xterm'
 import { clearInterval, setTimeout } from 'timers';
-import './player.css';
-import base64 from './base64.js'
+import 'player.css';
+import base64 from 'base64.js'
 
 
 const DEBUG = 2;
