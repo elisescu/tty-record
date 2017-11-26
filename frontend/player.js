@@ -2,6 +2,8 @@ import 'xterm.css'
 import Terminal from 'xterm'
 import { clearInterval, setTimeout } from 'timers';
 import './player.css';
+import base64 from './base64.js'
+
 
 const DEBUG = 2;
 
@@ -65,9 +67,9 @@ class PlayerImpl {
     renderEvent(frameEvent) {
         if (frameEvent.tp == 1) { // data msg
             try  {
-                this.terminal.write(decodeURIComponent(escape(window.atob(frameEvent.dt))))
+                this.terminal.write(base64.decode(frameEvent.dt));
             } catch (e) {
-                console.log("Couldnt' write data (", frameEvent.dt, "), atob: (", window.atob(frameEvent.dt), ")");
+                console.log("Couldnt' write data. Error: ", e);
             }
         } else { // resize msg
             this.terminal.resize(frameEvent.cols, frameEvent.rows)
