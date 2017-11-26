@@ -9,7 +9,7 @@ module.exports = {
     },
     devtool: 'inline-source-map',
     resolve: {
-        modules: [".", "other_modules", "other_modules/xterm/dist", "node_modules"]
+        modules: [".", "node_modules"]
     },
     module: {
         rules: [

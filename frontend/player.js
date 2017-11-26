@@ -1,5 +1,5 @@
-import 'xterm.css'
-import Terminal from 'xterm'
+import 'xterm/xterm.css'
+import Terminal from 'xterm/xterm'
 import { clearInterval, setTimeout } from 'timers';
 import 'player.css';
 import base64 from 'base64.js'
