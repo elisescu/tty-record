@@ -15,5 +15,5 @@ recorded session, as a json javascript object.
 Credits
 =======
 
-The two iconts (play.svg and pause.svg) have been taken from this nice
+The two icons (play.svg and pause.svg) have been taken from this nice
 [site](http://ikons.piotrkwiatkowski.co.uk/index.html)
