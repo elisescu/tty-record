@@ -110,7 +110,7 @@ class PlayerImpl {
     maybeRenderEvents(realTime) {
         // No more frames, so pause.
         if (this.framesLeft() < 1) {
-            this.pause();
+            this.stop();
             return;
         }
 
@@ -191,6 +191,9 @@ class PlayerImpl {
         this.pause()
         this.currentPlaybackDataIdx = 0;
         this.currentTimePosition = 0;
+        if (this.positionCallback != null) {
+            this.positionCallback(this.currentTimePosition);
+        }
     }
 
     seek(position) {
