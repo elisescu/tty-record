@@ -18,10 +18,21 @@ type winSize struct {
 	rows, cols int
 }
 
+func clamp(min, max, val int) int {
+	if val < min {
+		return min
+	}
+	if val > max {
+		return max
+	}
+	return val
+}
+
 func main() {
 	commandName := flag.String("command", "bash", "The command to run")
 	commandArgs := flag.String("args", "", "The command arguments")
 	outputName := flag.String("output", "typescript.html", "The name of the html output file to write")
+	maxWindowSize := flag.String("max-win-size", "200x50", "The maximum window size for the terminal (columns x rows). Ex: 150x40")
 	flag.Parse()
 
 	winChangedSig := make(chan os.Signal, 1)
@@ -43,27 +54,49 @@ func main() {
 		return
 	}
 
+	maxCols := -1
+	maxRows := -1
+	if maxWindowSize != nil {
+		_, err := fmt.Sscanf(*maxWindowSize, "%dx%d", &maxCols, &maxRows)
+
+		if err != nil {
+			fmt.Printf("Cannot parse <%s> for maximum window size", *maxWindowSize)
+			return
+		}
+	}
+
+	setSetTerminalSize := func(writeEvent bool) (cols, rows int) {
+		cols, rows, err := terminal.GetSize(0)
+		if err != nil {
+			log.Printf("Can't get window size: %s", err.Error())
+			return
+		}
+
+		if maxWindowSize != nil {
+			if maxCols != -1 && maxRows != -1 {
+				rows = clamp(1, maxRows, rows)
+				cols = clamp(1, maxCols, cols)
+			}
+		}
+
+		pty.Setsize(ptyMaster, rows, cols)
+		if writeEvent {
+			scriptWriter.WriteSize(false, winSize{cols: cols, rows: rows})
+		}
+		return
+	}
+
 	go func() {
 		for {
 			select {
 			case <-winChangedSig:
-				{
-					w, h, err := terminal.GetSize(0)
-					if err != nil {
-						log.Printf("Can't get window size: %s", err.Error())
-						return
-					}
-					pty.Setsize(ptyMaster, h, w)
-					scriptWriter.WriteSize(false, winSize{cols: w, rows: h})
-				}
+				setSetTerminalSize(true)
 			}
 		}
 	}()
 
-	w, h, err := terminal.GetSize(0)
-	pty.Setsize(ptyMaster, h, w)
-
-	err = scriptWriter.Begin(winSize{cols: w, rows: h})
+	cols, rows := setSetTerminalSize(false)
+	err = scriptWriter.Begin(winSize{cols: cols, rows: rows})
 	if err != nil {
 		fmt.Printf("Cannot create output. Error: %s", err.Error())
 		return
