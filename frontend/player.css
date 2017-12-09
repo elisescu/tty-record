@@ -14,7 +14,7 @@
 }
 
 .progressbar:hover {
-    opacity: 1;
+    background: #a3a3a3;
 }
 
 .progressbar::-webkit-slider-thumb {
@@ -31,4 +31,30 @@
     height: 25px;
     background: #1C1F10;
     cursor: pointer;
+}
+
+#range-container {
+    width: 100%;
+    margin-left: 25px;
+}
+
+#play-button {
+    width: 25px;
+    height: 27px;
+    float:left;
+}
+
+
+#play-button.play-state {
+    background: url(play.svg);
+    background-color: #d3d3d3
+}
+
+#play-button.pause-state {
+    background: url(pause.svg);
+    background-color: #d3d3d3
+}
+
+#play-button:hover {
+    background-color: #a3a3a3
 }

@@ -22,6 +22,10 @@ module.exports = {
                 use: ['style-loader', 'css-loader']
             },
             {
+                test: /\.(jpe?g|png|gif|svg)$/,
+                use: ['url-loader', 'image-webpack-loader']
+            },
+            {
                 // Don't parse the xterm map files - webpack doesn't like them
                 test: /other_modules.+xterm.+\.map$/,
                 use: 'ignore-loader'

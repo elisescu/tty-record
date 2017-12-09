@@ -11,3 +11,9 @@ page. Header and footer are probably misnomers, since they are in this case just
 of the html and the last part of the html, between which the goscript tool will just dump the
 recorded session, as a json javascript object.
 
+
+Credits
+=======
+
+The two iconts (play.svg and pause.svg) have been taken from this nice
+[site](http://ikons.piotrkwiatkowski.co.uk/index.html)

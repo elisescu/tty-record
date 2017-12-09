@@ -19,20 +19,28 @@ if (DEBUG > 2) {
 
 function _setupPlayerElement(container, player) {
     // Dilema: to use React and pay for the extra size in eacy typescript? Or not?
-    container.innerHTML +=
-        '<div id="terminal"></div>' +
-		'<div id="progressbar-container"> ' +
-			'<input type="range" min="1" max="1000" value="0" class="progressbar" id="progressbar"> ' +
-        '</div>';
+    container.innerHTML += `
+        <div id="terminal"></div>
+		<div id="progressbar-container">
+            <div id=play-button> </div>
+            <div id=range-container>
+                <input type="range" min="1" max="1000" value="0" class="progressbar" id="progressbar">
+            </div>
+        </div>
+    `
     player.terminalElement = document.getElementById("terminal");
-
     player.progressBarElement = document.getElementById("progressbar");
+    player.playButtonElement = document.getElementById("play-button")
 
     let thiz = player.progressBarElement;
     let thizPlayer = player;
     player.progressBarElement.oninput = function() {
         let newTs = (thiz.value * thizPlayer.getDuration()) / 1000;
         thizPlayer.seek(newTs);
+    }
+
+    player.playButtonElement.onclick = function() {
+        thizPlayer.togglePause();
     }
 }
 
@@ -53,7 +61,7 @@ class PlayerImpl {
         });
         this.terminal.open(this.terminalElement, true);
         this.terminal.blur();
-        this.state = PlayerState.PAUSED;
+        this.setState(PlayerState.PAUSED);
         this.currentTimePosition = 0;
         this.frameRate = 30;
         this.frameInterval = (1000) / this.frameRate;
@@ -139,7 +147,7 @@ class PlayerImpl {
 
     play() {
         DBG1("Play called");
-        this.state = PlayerState.PLAYING;
+        this.setState(PlayerState.PLAYING);
 
         let player = this;
         this.realTickID = window.setInterval(function(){
@@ -149,8 +157,22 @@ class PlayerImpl {
 
     pause() {
         DBG1("Pause called");
-        this.state = PlayerState.PAUSED;
+        this.setState(PlayerState.PAUSED);
         window.clearInterval(this.realTickID);
+    }
+
+    setState(state) {
+        switch (state) {
+            case PlayerState.PAUSED:
+                this.playButtonElement.classList.remove('pause-state')
+                this.playButtonElement.classList.add('play-state')
+            break;
+            case PlayerState.PLAYING:
+                this.playButtonElement.classList.remove('play-state')
+                this.playButtonElement.classList.add('pause-state')
+            break;
+        }
+        this.state = state;
     }
 
     togglePause() {
