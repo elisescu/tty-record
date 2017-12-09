@@ -4,10 +4,12 @@ Goscript
 Goscript is a tool that records the terminal session (well, any command you run it with) and saves
 the output in a self contained html file that can be run in the browser, to playback the session.
 
+The project is just a toy and is by far complete or without issues.
+
 Similar projects
 ================
 
-Bellow I'm listing some similar projects that I know of, and how `goscript` related to them.
+Bellow I'm listing some similar projects that I know of, and how `goscript` relates to them.
 
 * `script` - the linux command part of `util-linux` package and which records the terminal session
   in a file. This is tool is available on most of Linux distributions and on OSX as well. The saved
