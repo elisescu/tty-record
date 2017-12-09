@@ -17,6 +17,21 @@ Demo
 A demo video of a recorded session can be found [here](https://www.youtube.com/watch?v=Nnvs5C746U0)
 and its corresponding [typescript.html](https://github.com/elisescu/goscript-demo/raw/master/typescript.html)
 
+Build
+=====
+
+If you want to make changes to the frontend (any files under `./frontend/`), install the node
+modules:
+```
+cd goscript/frontend/
+npm install
+```
+Build:
+```
+cd goscript
+make
+```
+
 Similar projects
 ================
 
