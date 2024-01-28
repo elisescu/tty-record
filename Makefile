@@ -30,3 +30,6 @@ run_frontend: frontend/index.html frontend/session.js
 
 clean:
 	rm -fr goscript bindata.go frontend/app.js
+
+get-go-bindata:
+	go install github.com/go-bindata/go-bindata/...@latest
