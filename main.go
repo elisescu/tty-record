@@ -11,8 +11,8 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/elisescu/pty"
-	"golang.org/x/crypto/ssh/terminal"
+	"github.com/creack/pty"
+	"golang.org/x/term"
 )
 
 type WindowSizeT struct {
@@ -30,9 +30,12 @@ func clamp(min, max, val int) int {
 }
 
 func main() {
-	commandName := flag.String("command", "bash", "The command to run")
+	commandName := flag.String("command", os.Getenv("SHELL"), "[s] The command to run")
+	if *commandName == "" {
+		*commandName = "bash"
+	}
 	commandArgs := flag.String("args", "", "The command arguments")
-	outputName := flag.String("output", "typescript.html", "The name of the html output file to write")
+	outputName := flag.String("output", "recording.html", "The name of the html output file to write")
 	maxWindowSize := flag.String("max-win-size", "200x50", "The maximum window size for the terminal (columns x rows). Ex: 150x40")
 	flag.Parse()
 
@@ -44,8 +47,8 @@ func main() {
 	}
 	fmt.Printf("Script started, output file is %s\n\n\r", *outputName)
 
-	oldState, err := terminal.MakeRaw(0)
-	defer terminal.Restore(0, oldState)
+	oldState, err := term.MakeRaw(0)
+	defer term.Restore(0, oldState)
 
 	c := exec.Command(*commandName, strings.Fields(*commandArgs)...)
 
@@ -68,6 +71,7 @@ func main() {
 
 	setSetTerminalSize := func(writeEvent bool) (cols, rows int) {
 		winSize, err := pty.GetsizeFull(os.Stdin)
+
 		if err != nil {
 			log.Printf("Can't get window size: %s", err.Error())
 			return
@@ -82,12 +86,12 @@ func main() {
 			}
 		}
 
-		winSize.Cols = uint16(rows)
+		winSize.Cols = uint16(cols)
 		winSize.Rows = uint16(rows)
 
 		pty.Setsize(ptyMaster, winSize)
 		if writeEvent {
-			scriptWriter.WriteSize(false, WindowSizeT{cols: cols, rows: rows})
+			scriptWriter.WriteSize(WindowSizeT{cols: cols, rows: rows})
 		}
 		return
 	}

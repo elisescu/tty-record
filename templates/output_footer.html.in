@@ -1,0 +1,40 @@
+    ]
+    // goscript-end-data-object
+  </script>
+  
+  <style>
+    {{template "asciinema-player.css"}}
+
+    #player {
+      max-height: 95vh;
+      height: 95vh;
+    }
+
+    .ap-player {
+      border: 1px solid #eeeeee;
+    }
+
+  </style>
+
+</head>
+
+
+<body class="asciinema-theme-asciinema">
+    <div id="player"></div>
+
+    <script>
+      {{template "asciinema-player.min.js"}}
+    </script>
+
+    <script>
+        const player = AsciinemaPlayer.create(
+          { data: scriptData },
+          document.getElementById("player"),
+          {
+            poster: "npt:0:1",
+            fit: "both"
+          }
+        );
+    </script>
+</body>
+</html>
