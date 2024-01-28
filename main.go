@@ -3,8 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/elisescu/pty"
-	"golang.org/x/crypto/ssh/terminal"
 	"io"
 	"log"
 	"os"
@@ -12,9 +10,12 @@ import (
 	"os/signal"
 	"strings"
 	"syscall"
+
+	"github.com/elisescu/pty"
+	"golang.org/x/crypto/ssh/terminal"
 )
 
-type winSize struct {
+type WindowSizeT struct {
 	rows, cols int
 }
 
@@ -66,11 +67,13 @@ func main() {
 	}
 
 	setSetTerminalSize := func(writeEvent bool) (cols, rows int) {
-		cols, rows, err := terminal.GetSize(0)
+		winSize, err := pty.GetsizeFull(os.Stdin)
 		if err != nil {
 			log.Printf("Can't get window size: %s", err.Error())
 			return
 		}
+		cols = int(winSize.Cols)
+		rows = int(winSize.Rows)
 
 		if maxWindowSize != nil {
 			if maxCols != -1 && maxRows != -1 {
@@ -79,9 +82,12 @@ func main() {
 			}
 		}
 
-		pty.Setsize(ptyMaster, rows, cols)
+		winSize.Cols = uint16(rows)
+		winSize.Rows = uint16(rows)
+
+		pty.Setsize(ptyMaster, winSize)
 		if writeEvent {
-			scriptWriter.WriteSize(false, winSize{cols: cols, rows: rows})
+			scriptWriter.WriteSize(false, WindowSizeT{cols: cols, rows: rows})
 		}
 		return
 	}
@@ -96,7 +102,7 @@ func main() {
 	}()
 
 	cols, rows := setSetTerminalSize(false)
-	err = scriptWriter.Begin(winSize{cols: cols, rows: rows})
+	err = scriptWriter.Begin(WindowSizeT{cols: cols, rows: rows})
 	if err != nil {
 		fmt.Printf("Cannot create output. Error: %s", err.Error())
 		return

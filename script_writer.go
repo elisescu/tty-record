@@ -28,7 +28,7 @@ func (w *scriptWriter) WriteData(first bool, data []byte) {
 		cm, ts, base64.StdEncoding.EncodeToString(data))
 }
 
-func (w *scriptWriter) WriteSize(first bool, size winSize) {
+func (w *scriptWriter) WriteSize(first bool, size WindowSizeT) {
 	ts := time.Since(w.timestampStart).Seconds() * 1000
 
 	cm := ","
@@ -45,7 +45,7 @@ func (w *scriptWriter) WriteSize(first bool, size winSize) {
 
 }
 
-func (w *scriptWriter) Begin(size winSize) error {
+func (w *scriptWriter) Begin(size WindowSizeT) error {
 	// Read the header
 	binFile, err := Asset("templates/output_header.html.in")
 	if err != nil {
