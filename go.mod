@@ -1,4 +1,4 @@
-module github.com/elisescu/goscript
+module github.com/elisescu/tty-record
 
 go 1.21.6
 

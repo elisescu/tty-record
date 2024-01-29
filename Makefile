@@ -1,4 +1,4 @@
-OUTPUT_NAME:=goscript
+OUTPUT_NAME:=tty-record
 BINDATA_FILES:=$(wildcard templates/*) asciinema-player.min.js  asciinema-player.css
 GO_SOURCES:=$(wildcard *.go) bindata.go
 
