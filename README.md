@@ -46,3 +46,24 @@ Some similar projects and how `tty-record` relates to them:
 * [Ansi escape sequences](http://ascii-table.com/ansi-escape-sequences-vt-100.php)
 * [VT100 1](https://vt100.net/docs/vt100-ug/chapter3.html)
 * [VT100 2](http://www.termsys.demon.co.uk/vtansi.htm)
+
+## License
+
+* Files: asciinema-player.css
+         asciinema-player.min.js
+
+Copyright: 2011-2024 Marcin Kulik
+
+Comment: these files were extracted from
+
+https://github.com/asciinema/asciinema-player/releases/download/v3.6.3/asciinema-player.css
+
+https://github.com/asciinema/asciinema-player/releases/download/v3.6.3/asciinema-player.min.js
+
+License: Apache-2.0
+
+* Files: *
+
+Copyright: 2017-2024 Elis Popescu <elisescu@elisescu.com>
+
+License: MIT
