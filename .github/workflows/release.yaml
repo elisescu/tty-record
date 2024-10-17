@@ -1,0 +1,27 @@
+# https://github.com/marketplace/actions/go-release-binaries
+on:
+  release:
+    types: [created]
+
+name: release tty-record
+jobs:
+  release-linux-darwin:
+    name: release linux/darwin
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        goos: [linux, darwin]
+        goarch: [amd64, arm64]
+    steps:
+    - uses: actions/checkout@v4
+    - uses: wangyoucao577/go-release-action@v1.52
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        goos: ${{ matrix.goos }}
+        goarch: ${{ matrix.goarch }}
+        binary_name: tty-record
+        retry: 10
+        sha256sum: true
+        overwrite: true
+        pre_command: go install github.com/go-bindata/go-bindata/...@latest && go mod tidy && go-bindata -o bindata.go templates/output_footer.html.in templates/output_header.html.in asciinema-player.min.js asciinema-player.css
+        extra_files: LICENSE README.md
